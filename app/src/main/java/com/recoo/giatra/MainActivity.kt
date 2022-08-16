@@ -1,20 +1,24 @@
 package com.recoo.giatra
 
+import android.R.attr.button
 import android.content.pm.PackageManager
+import android.graphics.Color
+import android.graphics.drawable.Drawable
 import android.os.Build
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
-import android.widget.ProgressBar
-import android.widget.TextView
-import android.widget.Toast
+import android.widget.*
 import androidx.annotation.RequiresApi
+import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.SwitchCompat
 import androidx.core.app.ActivityCompat
+import androidx.core.graphics.drawable.DrawableCompat
 import be.tarsos.dsp.AudioProcessor
 import be.tarsos.dsp.io.android.AudioDispatcherFactory
 import be.tarsos.dsp.pitch.PitchDetectionHandler
 import be.tarsos.dsp.pitch.PitchProcessor
 
+var odabranaZica: Int = 0
 class MainActivity : AppCompatActivity() {
 
     @RequiresApi(Build.VERSION_CODES.O)
@@ -22,11 +26,58 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+
         // Hide the status bar.
         window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_FULLSCREEN
         // Remember that you should never show the action bar if the
         // status bar is hidden, so hide that too if necessary.
         actionBar?.hide()
+
+        val switchBar = findViewById<SwitchCompat>(R.id.switch2)
+            switchBar.isChecked = true
+
+
+
+
+        //BUTONS
+        val zica1 = findViewById<Button>(R.id.ZicaPrva)
+        val zica2 = findViewById<Button>(R.id.ZicaDruga)
+        val zica3 = findViewById<Button>(R.id.ZicaTreca)
+        val zica4 = findViewById<Button>(R.id.ZicaCetvrta)
+        val zica5 = findViewById<Button>(R.id.ZicaPeta)
+        val zica6 = findViewById<Button>(R.id.ZicaSesta)
+
+        zica1.setOnClickListener{
+            odabranaZica = 1
+            klikBtn(zica1, switchBar)
+        }
+
+        zica2.setOnClickListener{
+            odabranaZica = 2
+            klikBtn(zica2, switchBar)
+        }
+
+        zica3.setOnClickListener{
+            odabranaZica = 3
+            klikBtn(zica3, switchBar)
+        }
+
+        zica4.setOnClickListener{
+            odabranaZica = 4
+            klikBtn(zica4, switchBar)
+        }
+
+        zica5.setOnClickListener{
+            odabranaZica = 5
+            klikBtn(zica5, switchBar)
+        }
+
+        zica6.setOnClickListener{
+            odabranaZica = 6
+            klikBtn(zica6, switchBar)
+        }
+
+        //KRAJ BUTTONA
 
         val dispatcher = AudioDispatcherFactory.fromDefaultMicrophone(22050, 1024, 0)
 
@@ -35,9 +86,11 @@ class MainActivity : AppCompatActivity() {
         }else {
             val pdh = PitchDetectionHandler { res, e ->
                 val pitchInHz = res.pitch
+                if (switchBar.isChecked)
+                    odabranaZica = 0
 
                 // REALTIME TUNER
-                runOnUiThread { processPitch(pitchInHz) }
+                runOnUiThread { processPitch(pitchInHz, switchBar) }
             }
 
             val pitchProcessor: AudioProcessor =
@@ -57,8 +110,47 @@ class MainActivity : AppCompatActivity() {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
     }
 
+    @RequiresApi(Build.VERSION_CODES.M)
+    public fun klikBtn(btn: Button, swt: SwitchCompat){
+        if(swt.isChecked == true){
+            swt.isChecked = false
+        }
+        val zica1 = findViewById<Button>(R.id.ZicaPrva)
+        val zica2 = findViewById<Button>(R.id.ZicaDruga)
+        val zica3 = findViewById<Button>(R.id.ZicaTreca)
+        val zica4 = findViewById<Button>(R.id.ZicaCetvrta)
+        val zica5 = findViewById<Button>(R.id.ZicaPeta)
+        val zica6 = findViewById<Button>(R.id.ZicaSesta)
+        zica1.backgroundTintList = getColorStateList(android.R.color.white)
+        zica2.backgroundTintList = getColorStateList(android.R.color.white)
+        zica3.backgroundTintList = getColorStateList(android.R.color.white)
+        zica4.backgroundTintList = getColorStateList(android.R.color.white)
+        zica5.backgroundTintList = getColorStateList(android.R.color.white)
+        zica6.backgroundTintList = getColorStateList(android.R.color.white)
+
+        btn.backgroundTintList = getColorStateList(android.R.color.holo_blue_bright)
+
+    }
+
     @RequiresApi(Build.VERSION_CODES.O)
-    public fun processPitch(pitchInHz: Float) {
+    public fun processPitch(pitchInHz: Float, swt: SwitchCompat) {
+
+        //VRACANJE BUTTONA NA DEFAULT BOJU
+        if(odabranaZica > 0 && swt.isChecked){
+            odabranaZica = 0
+            val zica1 = findViewById<Button>(R.id.ZicaPrva)
+            val zica2 = findViewById<Button>(R.id.ZicaDruga)
+            val zica3 = findViewById<Button>(R.id.ZicaTreca)
+            val zica4 = findViewById<Button>(R.id.ZicaCetvrta)
+            val zica5 = findViewById<Button>(R.id.ZicaPeta)
+            val zica6 = findViewById<Button>(R.id.ZicaSesta)
+            zica1.backgroundTintList = getColorStateList(android.R.color.white)
+            zica2.backgroundTintList = getColorStateList(android.R.color.white)
+            zica3.backgroundTintList = getColorStateList(android.R.color.white)
+            zica4.backgroundTintList = getColorStateList(android.R.color.white)
+            zica5.backgroundTintList = getColorStateList(android.R.color.white)
+            zica6.backgroundTintList = getColorStateList(android.R.color.white)
+        }
 
         val pitchText = findViewById<TextView>(R.id.frekvencija)
         val noteText = findViewById<TextView>(R.id.nota)
@@ -70,8 +162,9 @@ class MainActivity : AppCompatActivity() {
         progresPlus.progress = pitchInHz.toInt()
         var centar = 0
 
-        pitchText.setText("" + pitchInHz);
+        pitchText.setText("" + pitchInHz.toInt())
 
+        if(swt.isChecked == true){  //IF USLOV ZA SWIC
         if(pitchInHz >= 0 && pitchInHz < 100.00) {
             //A
             centar = 82
@@ -178,6 +271,9 @@ class MainActivity : AppCompatActivity() {
             if ( pitchInHz >= 328 && pitchInHz < 330){
                 stimerTxt.setText("Ustimano")
             }else stimerTxt.setText("Nije Ustimano")
+        }
+        }else{          //OD USLOVA SWICA GORE IZNAD
+                Toast.makeText(this, "Ukratko ukljuci auto detect", Toast.LENGTH_SHORT).show()
         }
     }
 }

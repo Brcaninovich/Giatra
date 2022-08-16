@@ -18,7 +18,7 @@
         app:layout_constraintHorizontal_bias="0.506"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.499" />
+        app:layout_constraintVertical_bias="0.24" />
 
     <TextView
         android:id="@+id/nota"
@@ -41,10 +41,10 @@
         android:textSize="50dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.506"
+        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.287" />
+        app:layout_constraintVertical_bias="0.484" />
 
     <ProgressBar
         android:id="@+id/progressBarMinus"
@@ -79,28 +79,148 @@
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottomNavigationView"
         android:layout_width="420dp"
-        android:layout_height="73dp"
+        android:layout_height="0dp"
         android:background="#0A090C"
         app:itemIconTint="@color/black"
         app:itemTextColor="#000000"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.555"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <Button
+        android:id="@+id/ZicaPrva"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:background="@drawable/roundedbutton"
+        android:backgroundTint="@color/white"
+        android:gravity="center"
+        android:text="E"
+        android:textColor="#1E1E24"
+        android:textSize="20dp"
+        android:theme="@style/Button.color"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.083"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.775" />
+
+    <Button
+        android:id="@+id/ZicaCetvrta"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:background="@drawable/roundedbutton"
+        android:backgroundTint="@color/white"
+        android:gravity="center"
+        android:text="G"
+        android:textColor="#1E1E24"
+        android:textSize="20dp"
+        android:theme="@style/Button.color"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.592"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.775" />
+
+    <Button
+        android:id="@+id/ZicaPeta"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:background="@drawable/roundedbutton"
+        android:backgroundTint="@color/white"
+        android:gravity="center"
+        android:text="B"
+        android:textColor="#1E1E24"
+        android:textSize="20dp"
+        android:theme="@style/Button.color"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.764"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.775" />
+
+    <Button
+        android:id="@+id/ZicaTreca"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:background="@drawable/roundedbutton"
+        android:backgroundTint="@color/white"
+        android:gravity="center"
+        android:text="D"
+        android:textColor="#1E1E24"
+        android:textSize="20dp"
+        android:theme="@style/Button.color"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.423"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.775" />
+
+    <Button
+        android:id="@+id/ZicaDruga"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:background="@drawable/roundedbutton"
+        android:backgroundTint="@color/white"
+        android:gravity="center"
+        android:text="A"
+        android:textColor="#1E1E24"
+        android:textSize="20dp"
+        android:theme="@style/Button.color"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.254"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.775" />
+
+    <Button
+        android:id="@+id/ZicaSesta"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:background="@drawable/roundedbutton"
+        android:backgroundTint="@color/white"
+        android:gravity="center"
+        android:text="E"
+        android:textColor="#1E1E24"
+        android:textSize="20dp"
+        android:theme="@style/Button.color"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.933"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.775" />
+
+    <androidx.appcompat.widget.SwitchCompat
+        android:id="@+id/switch2"
+        android:layout_width="80dp"
+        android:layout_height="55dp"
+        android:thumb="@drawable/tumbswitch"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.684"
+        app:track="@drawable/trackswitch" />
+
+    <TextView
+        android:id="@+id/AudoDetectText"
+        android:layout_width="170dp"
+        android:layout_height="42dp"
+        android:text="AUTO DETECT"
+        android:textColor="@color/white"
+        android:textSize="25dp"
+        app:layout_constraintBottom_toTopOf="@+id/switch2"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="1.0" />
-
-    <Button
-        android:id="@+id/button"
-        android:layout_width="73dp"
-        android:layout_height="76dp"
-        android:background="@drawable/roundedbutton"
-        android:text="D"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.211"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.607" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
