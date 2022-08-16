@@ -4,6 +4,7 @@ import android.content.pm.PackageManager
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.View
 import android.widget.ProgressBar
 import android.widget.TextView
 import android.widget.Toast
@@ -15,18 +16,23 @@ import be.tarsos.dsp.pitch.PitchDetectionHandler
 import be.tarsos.dsp.pitch.PitchProcessor
 
 class MainActivity : AppCompatActivity() {
+
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        val tunerText = findViewById<TextView>(R.id.naslov)
+        // Hide the status bar.
+        window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_FULLSCREEN
+        // Remember that you should never show the action bar if the
+        // status bar is hidden, so hide that too if necessary.
+        actionBar?.hide()
+
         val dispatcher = AudioDispatcherFactory.fromDefaultMicrophone(22050, 1024, 0)
 
         if(ActivityCompat.checkSelfPermission(this, android.Manifest.permission.RECORD_AUDIO) != PackageManager.PERMISSION_GRANTED){
             ActivityCompat.requestPermissions(this, arrayOf(android.Manifest.permission.RECORD_AUDIO, android.Manifest.permission.WRITE_EXTERNAL_STORAGE), 111)
         }else {
-            tunerText.isEnabled = true
             val pdh = PitchDetectionHandler { res, e ->
                 val pitchInHz = res.pitch
 
@@ -48,10 +54,7 @@ class MainActivity : AppCompatActivity() {
         permissions: Array<out String>,
         grantResults: IntArray
     ) {
-        val tunerText = findViewById<TextView>(R.id.naslov)
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
-        if(requestCode==111 && grantResults[0]==PackageManager.PERMISSION_GRANTED)
-            tunerText.isEnabled = true
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
