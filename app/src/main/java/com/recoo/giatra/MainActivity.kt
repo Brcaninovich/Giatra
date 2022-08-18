@@ -17,8 +17,10 @@ import be.tarsos.dsp.AudioProcessor
 import be.tarsos.dsp.io.android.AudioDispatcherFactory
 import be.tarsos.dsp.pitch.PitchDetectionHandler
 import be.tarsos.dsp.pitch.PitchProcessor
+import com.ekn.gruzer.gaugelibrary.Range
 
 var odabranaZica: Int = 0
+var defaultZica: Int = 0
 class MainActivity : AppCompatActivity() {
 
     @RequiresApi(Build.VERSION_CODES.O)
@@ -33,10 +35,13 @@ class MainActivity : AppCompatActivity() {
         // status bar is hidden, so hide that too if necessary.
         actionBar?.hide()
 
+        val metar = findViewById<com.ekn.gruzer.gaugelibrary.HalfGauge>(R.id.metar)
+        metar.minValueTextColor = android.R.color.white
+        metar.maxValueTextColor = android.R.color.white
+        metar.valueColor = android.R.color.white
+
         val switchBar = findViewById<SwitchCompat>(R.id.switch2)
             switchBar.isChecked = true
-
-
 
 
         //BUTONS
@@ -86,11 +91,9 @@ class MainActivity : AppCompatActivity() {
         }else {
             val pdh = PitchDetectionHandler { res, e ->
                 val pitchInHz = res.pitch
-                if (switchBar.isChecked)
-                    odabranaZica = 0
 
                 // REALTIME TUNER
-                runOnUiThread { processPitch(pitchInHz, switchBar) }
+                runOnUiThread { switchKonts(pitchInHz) }
             }
 
             val pitchProcessor: AudioProcessor =
@@ -121,36 +124,224 @@ class MainActivity : AppCompatActivity() {
         val zica4 = findViewById<Button>(R.id.ZicaCetvrta)
         val zica5 = findViewById<Button>(R.id.ZicaPeta)
         val zica6 = findViewById<Button>(R.id.ZicaSesta)
+        vratiButone()
+
+        btn.backgroundTintList = getColorStateList(android.R.color.holo_blue_bright)
+
+    }
+
+    @RequiresApi(Build.VERSION_CODES.M)
+    public fun vratiButone(){
+        val zica1 = findViewById<Button>(R.id.ZicaPrva)
+        val zica2 = findViewById<Button>(R.id.ZicaDruga)
+        val zica3 = findViewById<Button>(R.id.ZicaTreca)
+        val zica4 = findViewById<Button>(R.id.ZicaCetvrta)
+        val zica5 = findViewById<Button>(R.id.ZicaPeta)
+        val zica6 = findViewById<Button>(R.id.ZicaSesta)
+
         zica1.backgroundTintList = getColorStateList(android.R.color.white)
         zica2.backgroundTintList = getColorStateList(android.R.color.white)
         zica3.backgroundTintList = getColorStateList(android.R.color.white)
         zica4.backgroundTintList = getColorStateList(android.R.color.white)
         zica5.backgroundTintList = getColorStateList(android.R.color.white)
         zica6.backgroundTintList = getColorStateList(android.R.color.white)
+    }
 
-        btn.backgroundTintList = getColorStateList(android.R.color.holo_blue_bright)
+    @RequiresApi(Build.VERSION_CODES.O)
+    public fun switchKonts(pitchInHz: Float){
+        val switchBar = findViewById<SwitchCompat>(R.id.switch2)
+        if (switchBar.isChecked){
+            processPitch(pitchInHz, switchBar)
+        }else if(!switchBar.isChecked){
+            processPitchManual(pitchInHz)
+        }
 
+    }
+
+    @RequiresApi(Build.VERSION_CODES.O)
+    public fun processPitchManual(pitchInHz: Float){
+
+        val pitchText = findViewById<TextView>(R.id.frekvencija)
+
+        val zica1 = findViewById<Button>(R.id.ZicaPrva)
+        val zica2 = findViewById<Button>(R.id.ZicaDruga)
+        val zica3 = findViewById<Button>(R.id.ZicaTreca)
+        val zica4 = findViewById<Button>(R.id.ZicaCetvrta)
+        val zica5 = findViewById<Button>(R.id.ZicaPeta)
+        val zica6 = findViewById<Button>(R.id.ZicaSesta)
+
+        var centar:Int = 0
+        val noteText = findViewById<TextView>(R.id.nota)
+
+        val progresMninus = findViewById<ProgressBar>(R.id.progressBarMinus)
+        val progresPlus = findViewById<ProgressBar>(R.id.progressBarPlus)
+
+        val stimerTxt = findViewById<TextView>(R.id.stimerText)
+
+        progresMninus.progress = pitchInHz.toInt()
+        progresPlus.progress = pitchInHz.toInt()
+
+        if(defaultZica == 1){
+            defaultZica = 0
+            odabranaZica = 1
+        }
+        pitchText.setText("" + pitchInHz.toInt())
+        when(odabranaZica){
+            1 ->{
+                    //E
+                    vratiButone()
+                    zica1.backgroundTintList = getColorStateList(android.R.color.holo_blue_bright)
+                    centar = 82
+                    progresMninus.min = 0
+                    progresMninus.max = centar
+                    progresPlus.min = centar
+                    progresPlus.max = 100
+                    if (pitchInHz > centar){
+                        progresMninus.progress = progresMninus.min
+                    }
+                    noteText.setText("E");
+                    if(pitchInHz.toInt() < centar){
+                        stimerTxt.setText("Low")
+                    }else if(pitchInHz.toInt() > centar){
+                        stimerTxt.setText("High")
+                    }
+                    else{
+                        stimerTxt.setText("Perfect")
+                    }
+            }
+            2 ->{
+                    //A
+                    vratiButone()
+                    zica2.backgroundTintList = getColorStateList(android.R.color.holo_blue_bright)
+                    centar = 110
+                    progresMninus.min = 0
+                    progresMninus.max = centar
+                    progresPlus.min = centar
+                    progresPlus.max = 200
+                    if (pitchInHz > centar){
+                        progresMninus.progress = progresMninus.min
+                    }
+                    noteText.setText("A");
+                    if(pitchInHz.toInt() < centar){
+                        stimerTxt.setText("Low")
+                    }else if(pitchInHz.toInt() > centar){
+                        stimerTxt.setText("High")
+                    }
+                    else{
+                        stimerTxt.setText("Perfect")
+                    }
+            }
+            3 ->{
+                    //D
+                vratiButone()
+                zica3.backgroundTintList = getColorStateList(android.R.color.holo_blue_bright)
+                    centar = 146
+                    progresMninus.min = 0
+                    progresMninus.max = centar
+                    progresPlus.min = centar
+                    progresPlus.max = 200
+                    if (pitchInHz > centar){
+                        progresMninus.progress = progresMninus.min
+                    }
+                    noteText.setText("D");
+                    if(pitchInHz.toInt() < centar){
+                        stimerTxt.setText("Low")
+                    }else if(pitchInHz.toInt() > centar){
+                        stimerTxt.setText("High")
+                    }
+                    else{
+                        stimerTxt.setText("Perfect")
+                    }
+            }
+            4 ->{
+                    //G
+                vratiButone()
+                zica4.backgroundTintList = getColorStateList(android.R.color.holo_blue_bright)
+                    centar = 196
+                    progresMninus.min = 0
+                    progresMninus.max = centar
+                    progresPlus.min = centar
+                    progresPlus.max = 300
+                    if (pitchInHz > centar){
+                        progresMninus.progress = progresMninus.min
+                    }
+                    noteText.setText("G");
+                    if(pitchInHz.toInt() < centar){
+                        stimerTxt.setText("Low")
+                    }else if(pitchInHz.toInt() > centar){
+                        stimerTxt.setText("High")
+                    }
+                    else{
+                        stimerTxt.setText("Perfect")
+                    }
+            }
+            5 ->{
+                    //B
+                vratiButone()
+                zica5.backgroundTintList = getColorStateList(android.R.color.holo_blue_bright)
+                    centar = 246
+                    progresMninus.min = 0
+                    progresMninus.max = centar
+                    progresPlus.min = centar
+                    progresPlus.max = 300
+                    if (pitchInHz > centar){
+                        progresMninus.progress = progresMninus.min
+                    }
+                    noteText.setText("B");
+                    if(pitchInHz.toInt() < centar){
+                        stimerTxt.setText("Low")
+                    }else if(pitchInHz.toInt() > centar){
+                        stimerTxt.setText("High")
+                    }
+                    else{
+                        stimerTxt.setText("Perfect")
+                    }
+            }
+            6 ->{
+                    //B
+                vratiButone()
+                zica6.backgroundTintList = getColorStateList(android.R.color.holo_blue_bright)
+                    centar = 329
+                    progresMninus.min = 0
+                    progresMninus.max = centar
+                    progresPlus.min = centar
+                    progresPlus.max = 400
+                    if (pitchInHz > centar){
+                        progresMninus.progress = progresMninus.min
+                    }
+                    noteText.setText("B");
+                    if(pitchInHz.toInt() < centar){
+                        stimerTxt.setText("Low")
+                    }else if(pitchInHz.toInt() > centar){
+                        stimerTxt.setText("High")
+                    }
+                    else{
+                        stimerTxt.setText("Perfect")
+                    }
+            }
+            else ->{
+                Toast.makeText(this, "Pogreska", Toast.LENGTH_SHORT)
+            }
+        }
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
     public fun processPitch(pitchInHz: Float, swt: SwitchCompat) {
 
-        //VRACANJE BUTTONA NA DEFAULT BOJU
-        if(odabranaZica > 0 && swt.isChecked){
-            odabranaZica = 0
-            val zica1 = findViewById<Button>(R.id.ZicaPrva)
-            val zica2 = findViewById<Button>(R.id.ZicaDruga)
-            val zica3 = findViewById<Button>(R.id.ZicaTreca)
-            val zica4 = findViewById<Button>(R.id.ZicaCetvrta)
-            val zica5 = findViewById<Button>(R.id.ZicaPeta)
-            val zica6 = findViewById<Button>(R.id.ZicaSesta)
-            zica1.backgroundTintList = getColorStateList(android.R.color.white)
-            zica2.backgroundTintList = getColorStateList(android.R.color.white)
-            zica3.backgroundTintList = getColorStateList(android.R.color.white)
-            zica4.backgroundTintList = getColorStateList(android.R.color.white)
-            zica5.backgroundTintList = getColorStateList(android.R.color.white)
-            zica6.backgroundTintList = getColorStateList(android.R.color.white)
-        }
+        val textMolbe = findViewById<TextView>(R.id.Molba)
+        val zica1 = findViewById<Button>(R.id.ZicaPrva)
+        val zica2 = findViewById<Button>(R.id.ZicaDruga)
+        val zica3 = findViewById<Button>(R.id.ZicaTreca)
+        val zica4 = findViewById<Button>(R.id.ZicaCetvrta)
+        val zica5 = findViewById<Button>(R.id.ZicaPeta)
+        val zica6 = findViewById<Button>(R.id.ZicaSesta)
+
+        val metar = findViewById<com.ekn.gruzer.gaugelibrary.HalfGauge>(R.id.metar)
+        val range = Range()
+        range.color = Color.parseColor("#35CE8D")
+
+
+
 
         val pitchText = findViewById<TextView>(R.id.frekvencija)
         val noteText = findViewById<TextView>(R.id.nota)
@@ -160,15 +351,27 @@ class MainActivity : AppCompatActivity() {
 
         progresMninus.progress = pitchInHz.toInt()
         progresPlus.progress = pitchInHz.toInt()
-        var centar = 0
-
+        var centar: Int = 0
         pitchText.setText("" + pitchInHz.toInt())
+
+        //VRACANJE BUTTONA NA DEFAULT BOJU
+        if(swt.isChecked){
+            defaultZica = 1
+            vratiButone()
+            textMolbe.setText("")
+        }
+
 
         if(swt.isChecked == true){  //IF USLOV ZA SWIC
         if(pitchInHz >= 0 && pitchInHz < 100.00) {
             //A
             centar = 82
-
+            metar.minValue = centar.toDouble() - 10
+            metar.maxValue = centar.toDouble() + 10
+            metar.value = pitchInHz.toDouble()
+            range.from = metar.minValue + 9.8
+            range.to = metar.maxValue - 9.8
+            metar.addRange(range)
             progresMninus.min = 0
             progresMninus.max = centar
             progresPlus.min = centar
@@ -176,7 +379,6 @@ class MainActivity : AppCompatActivity() {
             if (pitchInHz > centar){
                 progresMninus.progress = progresMninus.min
             }
-
             noteText.setText("E");
             if ( pitchInHz >= 82 && pitchInHz < 83){
                 stimerTxt.setText("Ustimano")
@@ -186,7 +388,12 @@ class MainActivity : AppCompatActivity() {
         else if(pitchInHz >= 100 && pitchInHz < 130) {
             //B
             centar = 110
-
+            metar.minValue = centar.toDouble() - 10
+            metar.maxValue = centar.toDouble() + 10
+            metar.value = pitchInHz.toDouble()
+            range.from = metar.minValue + 9.8
+            range.to = metar.maxValue - 9.8
+            metar.addRange(range)
             progresMninus.min = 100
             progresMninus.max = centar
             progresPlus.min = centar
@@ -204,7 +411,12 @@ class MainActivity : AppCompatActivity() {
         else if(pitchInHz >= 130 && pitchInHz < 180) {
             //C
             centar = 146
-
+            metar.minValue = centar.toDouble() - 10
+            metar.maxValue = centar.toDouble() + 10
+            metar.value = pitchInHz.toDouble()
+            range.from = metar.minValue + 9.8
+            range.to = metar.maxValue - 9.8
+            metar.addRange(range)
             progresMninus.min = 130
             progresMninus.max = centar
             progresPlus.min = centar
@@ -222,7 +434,12 @@ class MainActivity : AppCompatActivity() {
         else if(pitchInHz >= 180 && pitchInHz < 220) {
             //D
             centar = 196
-
+            metar.minValue = centar.toDouble() - 10
+            metar.maxValue = centar.toDouble() + 10
+            metar.value = pitchInHz.toDouble()
+            range.from = metar.minValue + 9.8
+            range.to = metar.maxValue - 9.8
+            metar.addRange(range)
             progresMninus.min = 180
             progresMninus.max = centar
             progresPlus.min = centar
@@ -240,7 +457,12 @@ class MainActivity : AppCompatActivity() {
         else if(pitchInHz >= 220 && pitchInHz <= 280) {
             //E
             centar = 246
-
+            metar.minValue = centar.toDouble() - 10
+            metar.maxValue = centar.toDouble() + 10
+            metar.value = pitchInHz.toDouble()
+            range.from = metar.minValue + 9.8
+            range.to = metar.maxValue - 9.8
+            metar.addRange(range)
             progresMninus.min = 220
             progresMninus.max = centar
             progresPlus.min = centar
@@ -258,7 +480,15 @@ class MainActivity : AppCompatActivity() {
         else if(pitchInHz >= 280 && pitchInHz < 400) {
             //F
             centar = 329
-
+            metar.minValue = centar.toDouble() - 10
+            metar.maxValue = centar.toDouble() + 10
+            metar.value = pitchInHz.toDouble()
+            range.from = metar.minValue + 9.8
+            range.to = metar.maxValue - 9.8
+            metar.addRange(range)
+            metar.minValueTextColor = android.R.color.white
+            metar.maxValueTextColor = android.R.color.white
+            metar.valueColor = android.R.color.white
             progresMninus.min = 280
             progresMninus.max = centar
             progresPlus.min = centar
@@ -272,8 +502,8 @@ class MainActivity : AppCompatActivity() {
                 stimerTxt.setText("Ustimano")
             }else stimerTxt.setText("Nije Ustimano")
         }
-        }else{          //OD USLOVA SWICA GORE IZNAD
-                Toast.makeText(this, "Ukratko ukljuci auto detect", Toast.LENGTH_SHORT).show()
+        }else{ //OD USLOVA SWICA GORE IZNAD
+
         }
     }
 }
