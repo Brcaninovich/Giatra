@@ -21,15 +21,6 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.156" />
 
-    <com.ekn.gruzer.gaugelibrary.HalfGauge
-        android:id="@+id/metar"
-        android:layout_width="297dp"
-        android:layout_height="249dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.29" />
 
     <TextView
         android:id="@+id/nota"
@@ -80,7 +71,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.555"
-        app:layout_constraintStart_toStartOf="parent" >
+        app:layout_constraintStart_toStartOf="parent">
 
         <ProgressBar
             android:id="@+id/progressBarMinus"

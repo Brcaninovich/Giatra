@@ -42,5 +42,4 @@ dependencies {
     androidTestImplementation 'androidx.test.ext:junit:1.1.3'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-    implementation 'com.github.Gruzer:simple-gauge-android:0.3.1'
 }

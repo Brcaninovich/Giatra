@@ -1,9 +1,6 @@
 package com.recoo.giatra
 
-import android.R.attr.button
 import android.content.pm.PackageManager
-import android.graphics.Color
-import android.graphics.drawable.Drawable
 import android.os.Build
 import android.os.Bundle
 import android.view.View
@@ -12,12 +9,12 @@ import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SwitchCompat
 import androidx.core.app.ActivityCompat
-import androidx.core.graphics.drawable.DrawableCompat
 import be.tarsos.dsp.AudioProcessor
 import be.tarsos.dsp.io.android.AudioDispatcherFactory
 import be.tarsos.dsp.pitch.PitchDetectionHandler
 import be.tarsos.dsp.pitch.PitchProcessor
-import com.ekn.gruzer.gaugelibrary.Range
+
+
 
 var odabranaZica: Int = 0
 var defaultZica: Int = 0
@@ -29,16 +26,14 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
 
+
+
         // Hide the status bar.
         window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_FULLSCREEN
         // Remember that you should never show the action bar if the
         // status bar is hidden, so hide that too if necessary.
         actionBar?.hide()
 
-        val metar = findViewById<com.ekn.gruzer.gaugelibrary.HalfGauge>(R.id.metar)
-        metar.minValueTextColor = android.R.color.white
-        metar.maxValueTextColor = android.R.color.white
-        metar.valueColor = android.R.color.white
 
         val switchBar = findViewById<SwitchCompat>(R.id.switch2)
             switchBar.isChecked = true
@@ -336,11 +331,6 @@ class MainActivity : AppCompatActivity() {
         val zica5 = findViewById<Button>(R.id.ZicaPeta)
         val zica6 = findViewById<Button>(R.id.ZicaSesta)
 
-        val metar = findViewById<com.ekn.gruzer.gaugelibrary.HalfGauge>(R.id.metar)
-        val range = Range()
-        range.color = Color.parseColor("#35CE8D")
-
-
 
 
         val pitchText = findViewById<TextView>(R.id.frekvencija)
@@ -366,12 +356,12 @@ class MainActivity : AppCompatActivity() {
         if(pitchInHz >= 0 && pitchInHz < 100.00) {
             //A
             centar = 82
-            metar.minValue = centar.toDouble() - 10
+            /*metar.minValue = centar.toDouble() - 10
             metar.maxValue = centar.toDouble() + 10
-            metar.value = pitchInHz.toDouble()
-            range.from = metar.minValue + 9.8
-            range.to = metar.maxValue - 9.8
-            metar.addRange(range)
+            metar.value = pitchInHz.toDouble()*/
+
+
+
             progresMninus.min = 0
             progresMninus.max = centar
             progresPlus.min = centar
@@ -388,12 +378,7 @@ class MainActivity : AppCompatActivity() {
         else if(pitchInHz >= 100 && pitchInHz < 130) {
             //B
             centar = 110
-            metar.minValue = centar.toDouble() - 10
-            metar.maxValue = centar.toDouble() + 10
-            metar.value = pitchInHz.toDouble()
-            range.from = metar.minValue + 9.8
-            range.to = metar.maxValue - 9.8
-            metar.addRange(range)
+
             progresMninus.min = 100
             progresMninus.max = centar
             progresPlus.min = centar
@@ -411,12 +396,7 @@ class MainActivity : AppCompatActivity() {
         else if(pitchInHz >= 130 && pitchInHz < 180) {
             //C
             centar = 146
-            metar.minValue = centar.toDouble() - 10
-            metar.maxValue = centar.toDouble() + 10
-            metar.value = pitchInHz.toDouble()
-            range.from = metar.minValue + 9.8
-            range.to = metar.maxValue - 9.8
-            metar.addRange(range)
+
             progresMninus.min = 130
             progresMninus.max = centar
             progresPlus.min = centar
@@ -434,12 +414,6 @@ class MainActivity : AppCompatActivity() {
         else if(pitchInHz >= 180 && pitchInHz < 220) {
             //D
             centar = 196
-            metar.minValue = centar.toDouble() - 10
-            metar.maxValue = centar.toDouble() + 10
-            metar.value = pitchInHz.toDouble()
-            range.from = metar.minValue + 9.8
-            range.to = metar.maxValue - 9.8
-            metar.addRange(range)
             progresMninus.min = 180
             progresMninus.max = centar
             progresPlus.min = centar
@@ -457,12 +431,7 @@ class MainActivity : AppCompatActivity() {
         else if(pitchInHz >= 220 && pitchInHz <= 280) {
             //E
             centar = 246
-            metar.minValue = centar.toDouble() - 10
-            metar.maxValue = centar.toDouble() + 10
-            metar.value = pitchInHz.toDouble()
-            range.from = metar.minValue + 9.8
-            range.to = metar.maxValue - 9.8
-            metar.addRange(range)
+
             progresMninus.min = 220
             progresMninus.max = centar
             progresPlus.min = centar
@@ -480,15 +449,6 @@ class MainActivity : AppCompatActivity() {
         else if(pitchInHz >= 280 && pitchInHz < 400) {
             //F
             centar = 329
-            metar.minValue = centar.toDouble() - 10
-            metar.maxValue = centar.toDouble() + 10
-            metar.value = pitchInHz.toDouble()
-            range.from = metar.minValue + 9.8
-            range.to = metar.maxValue - 9.8
-            metar.addRange(range)
-            metar.minValueTextColor = android.R.color.white
-            metar.maxValueTextColor = android.R.color.white
-            metar.valueColor = android.R.color.white
             progresMninus.min = 280
             progresMninus.max = centar
             progresPlus.min = centar
