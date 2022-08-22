@@ -1,5 +1,6 @@
 package com.recoo.giatra
 
+import android.Manifest
 import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Bundle
@@ -13,8 +14,6 @@ import be.tarsos.dsp.AudioProcessor
 import be.tarsos.dsp.io.android.AudioDispatcherFactory
 import be.tarsos.dsp.pitch.PitchDetectionHandler
 import be.tarsos.dsp.pitch.PitchProcessor
-
-
 
 var odabranaZica: Int = 0
 var defaultZica: Int = 0
@@ -81,8 +80,8 @@ class MainActivity : AppCompatActivity() {
 
         val dispatcher = AudioDispatcherFactory.fromDefaultMicrophone(22050, 1024, 0)
 
-        if(ActivityCompat.checkSelfPermission(this, android.Manifest.permission.RECORD_AUDIO) != PackageManager.PERMISSION_GRANTED){
-            ActivityCompat.requestPermissions(this, arrayOf(android.Manifest.permission.RECORD_AUDIO, android.Manifest.permission.WRITE_EXTERNAL_STORAGE), 111)
+        if(ActivityCompat.checkSelfPermission(this, Manifest.permission.RECORD_AUDIO) != PackageManager.PERMISSION_GRANTED){
+            ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.RECORD_AUDIO, Manifest.permission.WRITE_EXTERNAL_STORAGE), 111)
         }else {
             val pdh = PitchDetectionHandler { res, e ->
                 val pitchInHz = res.pitch
@@ -331,6 +330,13 @@ class MainActivity : AppCompatActivity() {
         val zica5 = findViewById<Button>(R.id.ZicaPeta)
         val zica6 = findViewById<Button>(R.id.ZicaSesta)
 
+        val progress1 = findViewById<ProgressBar>(R.id.progressBar)
+        val progress2 = findViewById<ProgressBar>(R.id.progressBar2)
+        val progress3 = findViewById<ProgressBar>(R.id.progressBar3)
+        val progress4 = findViewById<ProgressBar>(R.id.progressBar4)
+        val progress5 = findViewById<ProgressBar>(R.id.progressBar5)
+        val progress6 = findViewById<ProgressBar>(R.id.progressBar6)
+
 
 
         val pitchText = findViewById<TextView>(R.id.frekvencija)
@@ -339,8 +345,6 @@ class MainActivity : AppCompatActivity() {
         val progresMninus = findViewById<ProgressBar>(R.id.progressBarMinus)
         val progresPlus = findViewById<ProgressBar>(R.id.progressBarPlus)
 
-        progresMninus.progress = pitchInHz.toInt()
-        progresPlus.progress = pitchInHz.toInt()
         var centar: Int = 0
         pitchText.setText("" + pitchInHz.toInt())
 
@@ -356,18 +360,12 @@ class MainActivity : AppCompatActivity() {
         if(pitchInHz >= 0 && pitchInHz < 100.00) {
             //A
             centar = 82
-            /*metar.minValue = centar.toDouble() - 10
-            metar.maxValue = centar.toDouble() + 10
-            metar.value = pitchInHz.toDouble()*/
+            progress1.min = 0
+            progress1.max = centar
+            progress1.progress = pitchInHz.toInt()
 
-
-
-            progresMninus.min = 0
-            progresMninus.max = centar
-            progresPlus.min = centar
-            progresPlus.max = 100
             if (pitchInHz > centar){
-                progresMninus.progress = progresMninus.min
+                progress1.progress = pitchInHz.toInt() - centar
             }
             noteText.setText("E");
             if ( pitchInHz >= 82 && pitchInHz < 83){
